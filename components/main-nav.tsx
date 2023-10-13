@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 import { Icons } from '@/components/icons';
 import { MobileNav } from '@/components/mobile-nav';
+import { Badge } from '@/components/ui/badge';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { MainNavItem } from '@/types';
@@ -26,6 +27,7 @@ export function MainNav({ items, children }: MainNavProps) {
         <span className='hidden font-bold sm:inline-block'>
           {siteConfig.name}
         </span>
+        {siteConfig.beta ? <Badge variant={'secondary'}>Beta</Badge> : null}
       </Link>
       {items?.length ? (
         <nav className='hidden gap-6 md:flex'>

@@ -27,12 +27,13 @@ export type SidebarNavItem = {
 export type SiteConfig = {
   name: string;
   description: string;
-  url: string;
-  ogImage: string;
   links: {
     twitter: string;
     github: string;
+    taxonomy: string;
+    shadcn: string;
   };
+  beta?: boolean;
 };
 
 export type DocsConfig = {

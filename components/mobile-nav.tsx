@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { Icons } from '@/components/icons';
+import { Badge } from '@/components/ui/badge';
 import { siteConfig } from '@/config/site';
 import { useLockBody } from '@/hooks/use-lock-body';
 import { cn } from '@/lib/utils';
@@ -24,6 +25,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
         <Link href='/' className='flex items-center space-x-2'>
           <Icons.logo className='h-6 w-6' />
           <span className='font-bold'>{siteConfig.name}</span>
+          {siteConfig.beta ? <Badge variant={'secondary'}>Beta</Badge> : null}
         </Link>
         <nav className='grid grid-flow-row auto-rows-max text-sm'>
           {items.map((item, index) => (
