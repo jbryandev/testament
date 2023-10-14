@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import PostForm from '@/components/dashboard/post-form';
+import DocumentForm from '@/components/dashboard/document-form';
 import { Icons } from '@/components/icons';
 import { ButtonProps, buttonVariants } from '@/components/ui/button';
 import {
@@ -15,13 +15,13 @@ import {
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 
-interface PostCreateButtonProps extends ButtonProps {}
+interface DocumentAddButtonProps extends ButtonProps {}
 
-export function PostCreateButton({
+export function DocumentAddButton({
   className,
   variant = 'default',
   ...props
-}: PostCreateButtonProps) {
+}: DocumentAddButtonProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
@@ -34,15 +34,15 @@ export function PostCreateButton({
           {...props}
         >
           <Icons.add className='mr-2 h-4 w-4' />
-          New post
+          Add Document
         </button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className='px-5 pt-5'>
-          <DialogTitle>New Post</DialogTitle>
+          <DialogTitle>Add Document</DialogTitle>
         </DialogHeader>
         <div className='px-5 pb-5'>
-          <PostForm closeModal={closeModal} />
+          <DocumentForm closeModal={closeModal} />
         </div>
       </DialogContent>
     </Dialog>

@@ -17,20 +17,24 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { Post, NewPostParams, insertPostParams } from '@/lib/db/schema/posts';
+import {
+  Document,
+  NewDocumentParams,
+  insertDocumentParams,
+} from '@/lib/db/schema/documents';
 import { trpc } from '@/lib/trpc/client';
 
-interface PostFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  post?: Post;
+interface DocumentFormProps extends React.HTMLAttributes<HTMLFormElement> {
+  document?: Document;
   closeModal: () => void;
 }
 
-type FormData = z.infer<typeof insertPostParams>;
+type FormData = z.infer<typeof insertDocumentParams>;
 
-const PostForm = ({ post, closeModal }: PostFormProps) => {
+const DocumentForm = ({ document, closeModal }: DocumentFormProps) => {
   const { toast } = useToast();
 
-  const editing = !!post?.id;
+  const editing = !!document?.id;
 
   const router = useRouter();
   const utils = trpc.useContext();
@@ -39,42 +43,42 @@ const PostForm = ({ post, closeModal }: PostFormProps) => {
     // latest Zod release has introduced a TS error with zodResolver
     // open issue: https://github.com/colinhacks/zod/issues/2663
     // errors locally but not in production
-    resolver: zodResolver(insertPostParams),
-    defaultValues: post ?? {
-      title: 'Untitled Post',
-      content: '',
-      published: false,
+    resolver: zodResolver(insertDocumentParams),
+    defaultValues: document ?? {
+      title: 'Untitled Document',
+      url: '',
+      active: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
   });
 
-  const { mutate: createPost, isLoading: isCreating } =
-    trpc.posts.createPost.useMutation({
+  const { mutate: createDocument, isLoading: isCreating } =
+    trpc.documents.createDocument.useMutation({
       onSuccess: () => onSuccess('create'),
       onError: (error) => onError(error),
     });
 
-  const { mutate: updatePost, isLoading: isUpdating } =
-    trpc.posts.updatePost.useMutation({
+  const { mutate: updateDocument, isLoading: isUpdating } =
+    trpc.documents.updateDocument.useMutation({
       onSuccess: () => onSuccess('update'),
     });
 
-  const handleSubmit = (values: NewPostParams) => {
+  const handleSubmit = (values: NewDocumentParams) => {
     if (editing) {
-      updatePost({ ...values, id: post.id!, updatedAt: new Date() });
+      updateDocument({ ...values, id: document.id!, updatedAt: new Date() });
     } else {
-      createPost(values);
+      createDocument(values);
     }
   };
 
   const onSuccess = (action: 'create' | 'update') => {
-    utils.posts.getPosts.invalidate();
+    utils.documents.getDocuments.invalidate();
     router.refresh();
     closeModal();
     toast({
       title: 'Success!',
-      description: `Post ${action}d`,
+      description: `Document ${action}d`,
       variant: 'default',
     });
   };
@@ -106,24 +110,10 @@ const PostForm = ({ post, closeModal }: PostFormProps) => {
         />
         <FormField
           control={form.control}
-          name='content'
+          name='active'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Content</FormLabel>
-              <FormControl>
-                <Input {...field} value={field.value ?? ''} />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='published'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Published</FormLabel>
+              <FormLabel>Active</FormLabel>
               <br />
               <FormControl>
                 <Checkbox
@@ -151,4 +141,4 @@ const PostForm = ({ post, closeModal }: PostFormProps) => {
   );
 };
 
-export default PostForm;
+export default DocumentForm;

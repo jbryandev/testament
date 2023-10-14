@@ -6,17 +6,16 @@ export const dashboardConfig: DashboardConfig = {
       title: 'Dashboard',
       href: '/dashboard',
     },
+    {
+      title: 'Read',
+      href: '/read',
+    },
   ],
   sidebarNav: [
     {
-      title: 'Posts',
+      title: 'Documents',
       href: '/dashboard',
-      icon: 'post',
-    },
-    {
-      title: 'Email',
-      href: '/dashboard/email',
-      icon: 'mail',
+      icon: 'document',
     },
     {
       title: 'Settings',

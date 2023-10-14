@@ -1,18 +1,21 @@
+import { DocumentAddButton } from '@/components/dashboard/document-button';
+import DocumentList from '@/components/dashboard/document-list';
 import { DashboardHeader } from '@/components/dashboard/header';
-import { PostCreateButton } from '@/components/dashboard/post-create-button';
-import PostList from '@/components/dashboard/post-list';
 import { DashboardShell } from '@/components/dashboard/shell';
-import { getPosts } from '@/lib/api/posts/queries';
+import { getDocuments } from '@/lib/api/documents/queries';
 
 export default async function DashboardPage() {
-  const { posts } = await getPosts();
+  const { documents } = await getDocuments();
 
   return (
     <DashboardShell>
-      <DashboardHeader heading='Posts' text='Create and manage posts.'>
-        <PostCreateButton />
+      <DashboardHeader
+        heading='Documents'
+        text='Add and manage your documents.'
+      >
+        <DocumentAddButton />
       </DashboardHeader>
-      <PostList posts={posts} />
+      <DocumentList documents={documents} />
     </DashboardShell>
   );
 }

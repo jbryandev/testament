@@ -42,7 +42,7 @@ export const Icons = {
   mail: Mail,
   moon: Moon,
   menu: Menu,
-  post: FileText,
+  document: FileText,
   settings: Settings,
   spinner: Loader2,
   sun: SunMedium,

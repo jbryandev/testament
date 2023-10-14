@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import PostForm from '@/components/dashboard/post-form';
+import DocumentForm from '@/components/dashboard/document-form';
 import { Icons } from '@/components/icons';
 import {
   AlertDialog,
@@ -29,31 +29,31 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { toast } from '@/components/ui/use-toast';
-import { Post } from '@/lib/db/schema/posts';
+import { Document } from '@/lib/db/schema/documents';
 import { trpc } from '@/lib/trpc/client';
 
-interface PostOperationsProps {
-  post: Post;
+interface DocumentOperationsProps {
+  document: Document;
 }
 
-export function PostOperations({ post }: PostOperationsProps) {
+export function DocumentOperations({ document }: DocumentOperationsProps) {
   const router = useRouter();
   const utils = trpc.useContext();
   const [open, setOpen] = useState(false);
   const closeModal = () => setOpen(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
 
-  const { mutate: deletePost, isLoading: isDeleting } =
-    trpc.posts.deletePost.useMutation({
+  const { mutate: deleteDocument, isLoading: isDeleting } =
+    trpc.documents.deleteDocument.useMutation({
       onSuccess: () => onSuccess(),
     });
 
   const onSuccess = () => {
-    utils.posts.getPosts.invalidate();
+    utils.documents.getDocuments.invalidate();
     router.refresh();
     toast({
       title: 'Success!',
-      description: 'Post deleted',
+      description: 'Document deleted',
       variant: 'default',
     });
   };
@@ -84,10 +84,10 @@ export function PostOperations({ post }: PostOperationsProps) {
       <Dialog onOpenChange={setOpen} open={open}>
         <DialogContent>
           <DialogHeader className='px-5 pt-5'>
-            <DialogTitle>Edit Post</DialogTitle>
+            <DialogTitle>Edit Document</DialogTitle>
           </DialogHeader>
           <div className='px-5 pb-5'>
-            <PostForm closeModal={closeModal} post={post} />
+            <DocumentForm closeModal={closeModal} document={document} />
           </div>
         </DialogContent>
       </Dialog>
@@ -95,7 +95,7 @@ export function PostOperations({ post }: PostOperationsProps) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this post?
+              Are you sure you want to delete this document?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
@@ -104,7 +104,7 @@ export function PostOperations({ post }: PostOperationsProps) {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={() => deletePost({ id: post.id! })}
+              onClick={() => deleteDocument({ id: document.id! })}
               className='bg-red-600 focus:ring-red-600'
             >
               {isDeleting ? (
