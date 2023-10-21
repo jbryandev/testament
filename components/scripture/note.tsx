@@ -32,7 +32,14 @@ export default function Note(props: NoteProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant={'ghost'} className='h-6 w-6 p-1'>
+        <Button
+          variant={'ghost'}
+          className={cn(
+            props.type === 'footnote' && '-mr-1',
+            props.type === 'crossref' && '-ml-1',
+            'h-6 w-6 p-1.5',
+          )}
+        >
           {props.type === 'footnote' ? (
             <Icons.footnote className='h-full w-full text-muted-foreground' />
           ) : (

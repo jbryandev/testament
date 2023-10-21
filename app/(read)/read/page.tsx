@@ -1,4 +1,4 @@
-import Scripture from '@/components/scripture/scripture';
+import ScriptureViewer from '@/components/scripture/scripture-viewer';
 import { getScripture } from '@/lib/api/scipture/queries';
 import { ScriptureParams } from '@/lib/api/scipture/schema';
 import scripture from '@/lib/data/john1.json';
@@ -15,7 +15,7 @@ export default async function ReadPage() {
 
   return (
     <div className='container grid gap-12'>
-      <Scripture data={data} />
+      <ScriptureViewer data={data} />
     </div>
   );
 }

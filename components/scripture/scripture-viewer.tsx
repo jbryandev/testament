@@ -3,7 +3,7 @@ import * as HtmlToReact from 'html-to-react';
 import Note from '@/components/scripture/note';
 import { ScriptureResponse } from '@/lib/api/scipture/schema';
 
-export default function Scripture({ data }: { data: ScriptureResponse }) {
+export default function ScriptureViewer({ data }: { data: ScriptureResponse }) {
   const scripture = parseScripture(data);
   return (
     <div className='flex flex-col items-center'>
