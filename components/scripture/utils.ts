@@ -60,8 +60,7 @@ export function parseCrossReferences(verse: string, content: string) {
     }
   }
 
-  // Return the result as a string with each passage on a new line
-  return result.join('<br>');
+  return result;
 }
 
 // Helper function to get the book name and chapter from a given verse

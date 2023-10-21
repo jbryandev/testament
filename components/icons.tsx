@@ -9,7 +9,6 @@ import {
   FileText,
   FileUp,
   HeartHandshake,
-  Info,
   Laptop,
   Loader2,
   Lock,

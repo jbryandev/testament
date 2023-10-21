@@ -1,4 +1,5 @@
 import { Icons } from '@/components/icons';
+import Crossref from '@/components/scripture/crossref';
 import { parseCrossReferences } from '@/components/scripture/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -23,10 +24,10 @@ type CrossrefProps = {
 
 export default function Note(props: NoteProps) {
   const label = props.type === 'crossref' ? 'Cross Reference' : 'Footnote';
-  let content = props.content;
+  let passages: string[] = [];
 
   if (props.type === 'crossref') {
-    content = parseCrossReferences(props.verse, props.content);
+    passages = parseCrossReferences(props.verse, props.content);
   }
 
   return (
@@ -50,10 +51,21 @@ export default function Note(props: NoteProps) {
       <PopoverContent className='flex flex-col space-y-2 p-4'>
         <h4 className='text-base font-semibold'>{label}</h4>
         <hr />
-        <div
-          className='text-base'
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
+        {props.type === 'footnote' ? (
+          // Show footnote content
+          <div
+            className='text-base'
+            dangerouslySetInnerHTML={{ __html: props.content }}
+          />
+        ) : (
+          // Show cross reference content
+          <div className='grid grid-cols-2 gap-2'>
+            {passages &&
+              passages.map((passage, index) => (
+                <Crossref key={index} passage={passage} />
+              ))}
+          </div>
+        )}
       </PopoverContent>
     </Popover>
   );
