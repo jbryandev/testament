@@ -33,6 +33,8 @@ export default function Crossref({ passage }: CrossrefProps) {
       },
     );
 
+  // TODO: Only run the query when the crossref popover is not open
+  // and not when buttin is reclicked to close popover
   const handleClick = (event: any) => {
     refetch(); // Run the query when the popover trigger is clicked
   };
@@ -70,7 +72,7 @@ export default function Crossref({ passage }: CrossrefProps) {
           )}
           {isSuccess && data && (
             <>
-              <ScriptureViewer data={data} />
+              <ScriptureViewer scripture={data} />
               <Button variant={'outline'} className='w-full'>
                 {/* TODO: Add link to passage */}
                 Go to Passage <Icons.chevronRight className='h-4 w-4' />
