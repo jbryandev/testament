@@ -11,7 +11,7 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  await checkAuth();
+  await checkAuth('dashboard');
   return (
     <div className='grid min-h-screen grid-rows-[auto,1fr,auto] space-y-6'>
       <SiteHeader items={dashboardConfig.mainNav} />

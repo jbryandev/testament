@@ -8,7 +8,7 @@ interface ReadLayoutProps {
 }
 
 export default async function ReadLayout({ children }: ReadLayoutProps) {
-  await checkAuth();
+  await checkAuth('read');
   return (
     <div className='grid min-h-screen grid-rows-[auto,1fr,auto] space-y-6'>
       <SiteHeader items={dashboardConfig.mainNav} />

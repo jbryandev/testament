@@ -17,9 +17,9 @@ export const getUserAuth = async () => {
   return { session };
 };
 
-export const checkAuth = async () => {
+export const checkAuth = async (from?: string) => {
   const { session } = await getUserAuth();
-  if (!session) redirect('/login');
+  if (!session) redirect('/login' + (from ? `?from=${from}` : ''));
 };
 
 export const authOptions: NextAuthOptions = {

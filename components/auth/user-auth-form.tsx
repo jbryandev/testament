@@ -30,6 +30,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
   const searchParams = useSearchParams();
+  console.log(searchParams?.get('from'));
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -37,7 +38,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const signInResult = await signIn('email', {
       email: data.email.toLowerCase(),
       redirect: false,
-      callbackUrl: searchParams?.get('from') || '/dashboard',
+      callbackUrl: searchParams?.get('from') || '/read',
     });
 
     setIsLoading(false);
@@ -105,7 +106,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           onClick={() => {
             setIsGoogleLoading(true);
             signIn('google', {
-              callbackUrl: searchParams?.get('from') || '/dashboard',
+              callbackUrl: `/${searchParams?.get('from')}` || '/read',
             });
           }}
           disabled={isLoading || isGoogleLoading}
