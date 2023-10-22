@@ -15,8 +15,6 @@ interface CrossrefProps {
 }
 
 export default function Crossref({ passage }: CrossrefProps) {
-  const utils = trpc.useContext();
-
   const { data, isLoading, isError, isSuccess, refetch } =
     trpc.scripture.getScripture.useQuery(
       {
@@ -31,12 +29,12 @@ export default function Crossref({ passage }: CrossrefProps) {
         'include-footnotes': false,
       },
       {
-        enabled: false,
+        enabled: false, // Keeps the query from running on page load
       },
     );
 
   const handleClick = (event: any) => {
-    refetch();
+    refetch(); // Run the query when the popover trigger is clicked
   };
 
   return (
@@ -56,8 +54,29 @@ export default function Crossref({ passage }: CrossrefProps) {
         <hr />
         <div>
           {isLoading && <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />}
-          {isError && <span>Error retrieving passage. Please try again.</span>}
-          {isSuccess && <ScriptureViewer data={data!} />}
+          {isError && (
+            <>
+              <p className='mb-6'>
+                Error retrieving passage. Please try again.
+              </p>
+              <Button
+                variant={'outline'}
+                onClick={handleClick}
+                className='w-full'
+              >
+                Try Again
+              </Button>
+            </>
+          )}
+          {isSuccess && data && (
+            <>
+              <ScriptureViewer data={data} />
+              <Button variant={'outline'} className='w-full'>
+                {/* TODO: Add link to passage */}
+                Go to Passage <Icons.chevronRight className='h-4 w-4' />
+              </Button>
+            </>
+          )}
         </div>
       </PopoverContent>
     </Popover>
