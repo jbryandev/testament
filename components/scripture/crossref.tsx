@@ -1,13 +1,16 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { Icons } from '@/components/icons';
-import ScriptureViewer from '@/components/scripture/scripture-viewer';
+import ScriptureViewer from '@/components/scripture/viewer';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { trpc } from '@/lib/trpc/client';
 
 interface CrossrefProps {
@@ -15,6 +18,8 @@ interface CrossrefProps {
 }
 
 export default function Crossref({ passage }: CrossrefProps) {
+  const router = useRouter();
+
   const { data, isLoading, isError, isSuccess, refetch } =
     trpc.scripture.getScripture.useQuery(
       {
@@ -33,10 +38,13 @@ export default function Crossref({ passage }: CrossrefProps) {
       },
     );
 
-  // TODO: Only run the query when the crossref popover is not open
-  // and not when buttin is reclicked to close popover
   const handleClick = (event: any) => {
-    refetch(); // Run the query when the popover trigger is clicked
+    refetch();
+  };
+
+  const goToPassage = () => {
+    const params = new URLSearchParams(passage);
+    router.push(`/read?p=${params}`);
   };
 
   return (
@@ -46,7 +54,7 @@ export default function Crossref({ passage }: CrossrefProps) {
           variant={'outline'}
           size={'sm'}
           onClick={handleClick}
-          className=' font-normal'
+          className='truncate font-normal'
         >
           {passage}
         </Button>
@@ -55,30 +63,38 @@ export default function Crossref({ passage }: CrossrefProps) {
         <h4 className='text-base font-semibold'>{passage}</h4>
         <hr />
         <div>
-          {isLoading && <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />}
-          {isError && (
-            <>
-              <p className='mb-6'>
-                Error retrieving passage. Please try again.
-              </p>
-              <Button
-                variant={'outline'}
-                onClick={handleClick}
-                className='w-full'
-              >
-                Try Again
-              </Button>
-            </>
-          )}
-          {isSuccess && data && (
-            <>
-              <ScriptureViewer data={data} />
-              <Button variant={'outline'} className='w-full'>
-                {/* TODO: Add link to passage */}
-                Go to Passage <Icons.chevronRight className='h-4 w-4' />
-              </Button>
-            </>
-          )}
+          <ScrollArea className='max-h-80'>
+            {isLoading && (
+              <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
+            )}
+            {isError && (
+              <>
+                <p className='mb-6'>
+                  Error retrieving passage. Please try again.
+                </p>
+                <Button
+                  variant={'outline'}
+                  onClick={handleClick}
+                  className='w-full'
+                >
+                  Try Again
+                </Button>
+              </>
+            )}
+            {isSuccess && (
+              <>
+                <ScriptureViewer data={data} />
+                <Button
+                  variant={'outline'}
+                  className='w-full'
+                  onClick={goToPassage}
+                >
+                  {/* TODO: Add link to passage */}
+                  Go to Passage <Icons.chevronRight className='h-4 w-4' />
+                </Button>
+              </>
+            )}
+          </ScrollArea>
         </div>
       </PopoverContent>
     </Popover>

@@ -22,5 +22,10 @@ export const getScripture = async (query: ScriptureParams) => {
   }
 
   const data: ScriptureResponse = await response.json();
+
+  if (data.passages.length === 0) {
+    throw new Error('No passages found');
+  }
+
   return data;
 };
