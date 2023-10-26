@@ -31,7 +31,7 @@ export default function Note(props: NoteProps) {
   }
 
   return (
-    <Popover>
+    <Popover modal={true}>
       <PopoverTrigger asChild>
         <Button
           variant={'ghost'}

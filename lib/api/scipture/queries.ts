@@ -8,7 +8,7 @@ export const getScripture = async (query: ScriptureParams) => {
 
   const params = new URLSearchParams(stringifiedQuery);
 
-  const url = `${env.SCRIPTURE_API_URL}?${params.toString()}`;
+  const url = `${env.ESV_API_URL}?${params.toString()}`;
 
   const response = await fetch(url, {
     method: 'GET',

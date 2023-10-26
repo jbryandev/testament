@@ -40,7 +40,7 @@ export default function Crossref({ passage }: CrossrefProps) {
   };
 
   return (
-    <Popover>
+    <Popover modal={true}>
       <PopoverTrigger asChild>
         <Button
           variant={'outline'}
@@ -72,7 +72,7 @@ export default function Crossref({ passage }: CrossrefProps) {
           )}
           {isSuccess && data && (
             <>
-              <ScriptureViewer scripture={data} />
+              <ScriptureViewer data={data} />
               <Button variant={'outline'} className='w-full'>
                 {/* TODO: Add link to passage */}
                 Go to Passage <Icons.chevronRight className='h-4 w-4' />
