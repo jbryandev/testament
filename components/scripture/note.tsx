@@ -48,7 +48,7 @@ export default function Note(props: NoteProps) {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='flex flex-col space-y-2 bg-popover/80 p-4 backdrop-blur'>
+      <PopoverContent className='flex flex-col space-y-2 bg-popover/80 p-4 backdrop-blur-sm'>
         <h4 className='text-base font-semibold'>{label}</h4>
         <hr />
         {props.type === 'footnote' ? (

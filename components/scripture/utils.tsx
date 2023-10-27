@@ -6,7 +6,7 @@ import Note from '@/components/scripture/note';
 import { ScriptureResponse } from '@/lib/api/scipture/schema';
 
 // Helper function to parse scripture coming from the API
-export function parseScripture(data: ScriptureResponse) {
+export function parseScripture(data: ScriptureResponse): React.ReactNode {
   // Join the scripture HTML received from the API
   const html = data.passages
     ?.join('')
@@ -131,11 +131,12 @@ export function parseScripture(data: ScriptureResponse) {
   ];
 
   // Parse the HTML with the custom processing instructions
-  const reactComponent = htmlToReactParser.parseWithInstructions(
-    html,
-    isValidNode,
-    processingInstructions,
-  );
+  const reactComponent: React.ReactNode =
+    htmlToReactParser.parseWithInstructions(
+      html,
+      isValidNode,
+      processingInstructions,
+    );
 
   return reactComponent;
 }

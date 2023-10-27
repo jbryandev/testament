@@ -59,7 +59,7 @@ export default function Crossref({ passage }: CrossrefProps) {
           {passage}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='flex flex-col space-y-2 bg-popover/80 p-4 backdrop-blur'>
+      <PopoverContent className='flex flex-col space-y-2 bg-popover/80 p-4 backdrop-blur-sm'>
         <h4 className='text-base font-semibold'>{passage}</h4>
         <hr />
         <div>

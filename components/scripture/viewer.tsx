@@ -7,7 +7,6 @@ interface ScriptureViewerProps {
 
 export default function ScriptureViewer({ data }: ScriptureViewerProps) {
   const scripture = parseScripture(data);
-
   return (
     <div className='flex flex-col items-center'>
       <div className='max-w-prose'>{scripture}</div>
